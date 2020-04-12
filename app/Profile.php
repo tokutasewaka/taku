@@ -9,8 +9,9 @@ class Profile extends Model
     protected $gurarded = array('id');
     //
     public static $rules =array
-    (     
-        'title' =>'required',
+    (    'name'=>'required',
+         'gender'=>'required',
+         'hobby'=>'required',
         'body' => 'required',
         );
 }

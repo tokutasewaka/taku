@@ -17,21 +17,22 @@
                         </ul>
                     @endif
                     <div class="form-group row">
-                        <label class="col-md-2" for="title">名前</label>
+                        <label class="col-md-2" for="body">氏名</label>
                         <div class="col-md-10">
-                            <input type="text" class="form-control" name="title" value="{{ old('title') }}">
+                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                             </div>
                         </div>
                     <div class="form-group row">
-                        <label class="col-md-2" for="title">性別</label>
+                        <label class="col-md-2" for="body">性別</label>
                         <div class="col-md-10">
-                            <input type="text" class="form-control" name="title" value="{{ old('title') }}">
+                            <input type="radio"  name="gender" value="man"><b>男性</b>
+                            <input type="radio"  name="gender" value="woman"><b>女性</b>
                             </div>
                         </div>
                     　<div class="form-group row">
-                        <label class="col-md-2" for="body">趣味/label>
+                        <label class="col-md-2" for="body">趣味</label>
                         <div class="col-md-10">
-                            <textarea class="form-control" name="body" rows="5">{{ old('body') }}</textarea>
+                             <input type="text" class="form-control" name="hobby" value="{{ old('title') }}">
                         </div>
                     </div>
                     <div class="form-group row">
