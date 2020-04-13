@@ -21,14 +21,6 @@ class ProfileController extends Controller
       $profile = new Profile;
       $form = $request->all();
 
-      
-      if ($form['image']) {
-        $path =  $request->file('image')->store('public/image');
-        $profile->image_path = basename($path);
-      } else {
-          $profile->image_path = null;
-      }
-
       unset($form['_token']);
       unset($form['image']);
       
@@ -38,7 +30,7 @@ class ProfileController extends Controller
       return redirect('admin/profile/create');
   }
 
-  public function index(Request $request)
+ public function index(Request $request)
   {
      $cond_title = $request->cond_title;
       if ($cond_title != '') {
@@ -50,8 +42,6 @@ class ProfileController extends Controller
  
   }
 
-
-   
    
     public function edit(Request $request)
     
@@ -66,23 +56,12 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
       $this->validate($request, Profile::$rules);
-      
       $profile = Profile::find($request->id);
-     
       $profile_form = $request->all();
-      if (isset($profile_form['image'])) {
-        $path = $request->file('image')->store('public/image');
-        $profile->image_path = basename($path);
-        unset($profile_form['image']);
-      } elseif (isset($request->remove)) {
-        $profile->image_path = null;
-        unset($profile_form['remove']);
-      }
       unset($profile_form['_token']);
-      
       $profile->fill($profile_form)->save();
-
-      return redirect('admin/profile'); 
+      
+      return redirect('admin/profile');
     }
     
 }
