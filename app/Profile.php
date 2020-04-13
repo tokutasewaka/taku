@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
-    protected $gurarded = array('id');
+    protected $guarded = array('id');
     //
     public static $rules =array
-    (    'name'=>'required',
+    (
+        'name'=>'required',
          'gender'=>'required',
          'hobby'=>'required',
         'introduction' => 'required',

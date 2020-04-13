@@ -17,7 +17,6 @@ class ProfileController extends Controller
   {
       
      $this->validate($request, Profile::$rules);
-     
       $profile = new Profile;
       $form = $request->all();
 
@@ -25,13 +24,11 @@ class ProfileController extends Controller
       unset($form['image']);
       
       $profile->fill($form);
-      $profile->save();
-
+      $profile->save(); 
       return redirect('admin/profile/create');
   }
 
- public function index(Request $request)
-  {
+ public function index(Request $request){
      $cond_title = $request->cond_title;
       if ($cond_title != '') {
           $posts = Profile::where('title', $cond_title)->get();
@@ -47,7 +44,7 @@ class ProfileController extends Controller
     
   { 
       $profile = Profile::find($request->id);
-      if (empty($news)) {
+      if (empty($profile)) {
         abort(404);    
       }
       return view('admin.profile.edit', ['profile_form' => $profile]);
@@ -63,6 +60,13 @@ class ProfileController extends Controller
       
       return redirect('admin/profile');
     }
+    
+    public function delete(Request $request)
+        {$profile =$Profile::find($request->id);
+        
+        $profile->delete();
+        return redirect('admin/profile/');
+        }
     
 }
 
