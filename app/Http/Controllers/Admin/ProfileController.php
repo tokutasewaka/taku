@@ -30,7 +30,7 @@ class ProfileController extends Controller
 
  public function index(Request $request){
      $cond_title = $request->cond_title;
-      if ($cond_title != '') {
+     if ($cond_title != '') {
           $posts = Profile::where('title', $cond_title)->get();
       } else {
           $posts = Profile::all();
@@ -62,10 +62,11 @@ class ProfileController extends Controller
     }
     
     public function delete(Request $request)
-        {$profile =$Profile::find($request->id);
+        {
+            $profile =$Profile::find($request->id);
         
-        $profile->delete();
-        return redirect('admin/profile/');
+            $profile->delete();
+            return redirect('admin/profile/');
         }
     
 }
