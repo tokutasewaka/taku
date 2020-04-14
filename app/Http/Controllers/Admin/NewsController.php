@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 
 use App\News;
 
+use App\History;
+
+use Carbon\Carbon;
+
 class NewsController extends Controller
 {
     
@@ -25,7 +29,7 @@ public function create(Request $request)
         
         if(isset($form['image'])){
             $path = $request->file('image')->store('public/image');
-            $news->image_path = bassename($path);
+            $news->image_path = basename($path);
         }else{
             $news->image_path = null;
         }
@@ -51,44 +55,48 @@ public function create(Request $request)
  public function edit(Request $request)
   {
      
-      $news = News::find($request->id);
-      if (empty($news)) {
+     $news = News::find($request->id);
+    if (empty($news)) {
         abort(404);    
       }
-      return view('admin.news.edit', ['news_form' => $news]);
+    return view('admin.news.edit', ['news_form' => $news]);
   }
 
 
  public function update(Request $request)
   {
-      
-      $this->validate($request, News::$rules);
-      
-      $news = News::find($request->id);
-     
-      $news_form = $request->all();
-      if (isset($news_form['image'])) {
-        $path = $request->file('image')->store('public/image');
-        $news->image_path = basename($path);
-        unset($news_form['image']);
-      } elseif (isset($request->remove)) {
-        $news->image_path = null;
-        unset($news_form['remove']);
-      }
-      unset($news_form['_token']);
-      
-      $news->fill($news_form)->save();
+  $this->validate($request, News::$rules);
+        $news = News::find($request->id);
+        $news_form = $request->all();
+        if ($request->remove == 'true') {
+            $news_form['image_path'] = null;
+        } elseif ($request->file('image')) {
+            $path = $request->file('image')->store('public/image');
+            $news_form['image_path'] = basename($path);
+        } else {
+            $news_form['image_path'] = $news->image_path;
+        }
 
-      return redirect('admin/news');
-  }
-   
-   public function delete(Request $request)
-{
-     $news = News::find($request->id);
-     
-     $news->delete();
+        unset($news_form['_token']);
+        unset($news_form['image']);
+        unset($news_form['remove']);
+        $news->fill($news_form)->save();
+
+        // 以下を追記
+        $history = new History;
+        $history->news_id = $news->id;
+        $history->edited_at = Carbon::now();
+        $history->save();
+
+
      return redirect('admin/news/');
 }
+ public function delete(Request $request)
+    {
+        $news = News::find($request->id);
+        $news->delete();
+        return redirect('admin/news/');
+    }
 
 }
 
