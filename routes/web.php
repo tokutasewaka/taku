@@ -31,6 +31,7 @@ Auth::routes();
 
 
 
+
 Route::group(['prefix' => 'admin','middleware'=>'auth'],function(){
     Route::get('profile','Admin\ProfileController@index');
     Route::get('profile/create','Admin\ProfileController@add');
@@ -42,3 +43,6 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'],function(){
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/', 'NewsController@index');
+Route::get('/','ProfileController@index');
